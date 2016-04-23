@@ -23,3 +23,23 @@ tape('simple', function (t) {
   )
 
 })
+
+tape('abort while read is pending', function (t) {
+  t.plan(2)
+
+  var read = pcontinue(function (i, n) {
+    if(i < 10)
+      return pull(pull.count(99), pull.asyncMap(function (m, cb) {
+        setImmediate( function() {
+          cb(null, m + i * 100)
+        })
+      }))
+  })
+  
+  read(null, function( err, data) {
+    t.ok(err, 'callback from read')
+  })
+  read(true, function(err, data) {
+    t.ok(err, 'callback from abort')
+  })
+})
