@@ -1,6 +1,6 @@
 var tape = require('tape')
 var pull = require('pull-stream')
-var pcontinue = require('./')
+var pcontinue = require('../')
 
 tape('simple', function (t) {
 
